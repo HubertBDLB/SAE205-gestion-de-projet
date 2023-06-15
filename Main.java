@@ -38,7 +38,49 @@ public class Main extends Application {
 
     // gestion des fenêtres
     static public void ouvrirNouvelleChambre() {
-        fNouvChambre.init(AccesDonnees.getLesChambres(), AccesDonnees.getLesCategories());
-        fNouvChambre.show();
+    	fNouvChambre.init(AccesDonnees.getLesChambres(), AccesDonnees.getLesCategories());
+        fNouvChambre.showAndWait(); 
+        Chambre nouvelleChambre = fNouvChambre.getChambre(); // Get the new chambre from the dialog
+        if (nouvelleChambre != null) {
+            fListeChambres.ajouterChambre(nouvelleChambre); // Add the new chambre to the list
+            AccesDonnees.creerChambre(nouvelleChambre); // Add the new chambre to the data source
+        }
     }
+    
+    
+    static public void modifierEmploye(Chambre c) {
+		//fListeChambres.modifierChambre(c);
+		AccesDonnees.modifierChambre(c);	
+	}
+    
+    static public void supprimerEmploye(Chambre c) {
+		fListeChambres.supprimerChambre(c);
+		AccesDonnees.supprimerChambre(c);
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
