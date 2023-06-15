@@ -48,12 +48,12 @@ public class Main extends Application {
     }
     
     
-    static public void modifierEmploye(Chambre c) {
+    static public void modifierChambre(Chambre c) {
 		//fListeChambres.modifierChambre(c);
 		AccesDonnees.modifierChambre(c);	
 	}
     
-    static public void supprimerEmploye(Chambre c) {
+    static public void supprimerChambre(Chambre c) {
 		fListeChambres.supprimerChambre(c);
 		AccesDonnees.supprimerChambre(c);
 	}
