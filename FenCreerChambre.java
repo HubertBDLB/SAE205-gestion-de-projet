@@ -1,4 +1,4 @@
-package Vue;
+
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -7,6 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+
 import Modele.AccesDonnees;
 import Presentation.*;
 import javafx.beans.binding.*;
@@ -45,7 +48,7 @@ public class FenCreerChambre extends Stage {
 	            Chambre nouvelleChambre = new Chambre(numeroChambre, categorie);
 	            // Ajouter la chambre à la liste des chambres existantes (AccesDonnees)
 
-	            // Afficher un message de succès
+	            /* Afficher un message de succès*/
 
 	            this.close();
 	        });
@@ -86,11 +89,21 @@ public class FenCreerChambre extends Stage {
 			}
 		};*/
 
-	    public void init() {
+	    /*public void init() {
 	        txtNumero.clear();
 	        cbCategorie.getItems().clear();
 	        // Charger les catégories disponibles depuis AccesDonnees
 	        cbCategorie.getItems().addAll("Catégorie 1", "Catégorie 2", "Catégorie 3");
+	    }*/
+	    
+	    public void init(ArrayList<Integer> lesNumeros, ArrayList<String> lesCategories) {
+	   
+	        txtNumero.clear();
+	        cbCategorie.getItems().clear();
+	        
+
+	        cbCategorie.getItems().addAll(lesCategories);
+	        
 	    }
 	}
 
