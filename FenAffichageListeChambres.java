@@ -1,3 +1,5 @@
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,6 +19,15 @@ import java.util.ArrayList;
 public class FenAffichageListeChambres extends Stage {
     private TableView<Chambre> tableChambres;
     private ObservableList<Chambre> lesChambres;
+    
+    Button bnAjouter = new Button("Ajouter");
+    Button bnModifier = new Button("Modifier");
+    Button bnSupprimer = new Button("Supprimer");
+    Button bnFermer = new Button("Fermer");
+    
+    private MenuItem optionAjouter		= new MenuItem("Ajouter");
+	private MenuItem optionModifier		= new MenuItem("Modifier");
+	private MenuItem optionSupprimer	= new MenuItem("Supprimer");
 
     public FenAffichageListeChambres() {
         this.setTitle("Liste des chambres");
@@ -30,6 +41,14 @@ public class FenAffichageListeChambres extends Stage {
     @SuppressWarnings("unchecked")
 	private Parent creerContenu() {
         AnchorPane racine = new AnchorPane();
+        
+        ContextMenu menu = new ContextMenu(
+				optionAjouter,
+				new SeparatorMenuItem(),
+				optionModifier,
+				new SeparatorMenuItem(),
+				optionSupprimer
+		);
 
         tableChambres = new TableView<>();
         TableColumn<Chambre, Integer> colNumero = new TableColumn<>("Numéro");
@@ -38,30 +57,30 @@ public class FenAffichageListeChambres extends Stage {
         colCategorie.setCellValueFactory(new PropertyValueFactory<>("categorie"));
 
         tableChambres.getColumns().addAll(colNumero, colCategorie);
+        tableChambres.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableChambres.setContextMenu(menu);
 
-        Button bnAjouter = new Button("Ajouter");
-        Button bnModifier = new Button("Modifier");
-        Button bnSupprimer = new Button("Supprimer");
-        Button bnFermer = new Button("Fermer");
+
         
+        
+        BooleanBinding rien = Bindings.equal(tableChambres.getSelectionModel().selectedIndexProperty(), -1);
         
         bnAjouter.setPrefWidth(100);
         bnAjouter.setOnAction(e -> {
             Main.ouvrirNouvelleChambre();
         });
+        optionAjouter.setOnAction(e -> {
+			Main.ouvrirNouvelleChambre();
+		});
 
-        	/*
-        bnModifier.setOnAction(e -> {
-            Chambre selectedChambre = tableChambres.getSelectionModel().getSelectedItem();
-            if (selectedChambre != null) {
-                Main.ouvrirDetailChambre(selectedChambre);
-            }
-        });*/
-	
-	
+        	
         bnModifier.setPrefWidth(100);
+		bnModifier.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
+		optionModifier.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
         
         bnSupprimer.setPrefWidth(100);
+        bnSupprimer.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
+        optionSupprimer.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
         bnSupprimer.setOnAction(e -> {
             Chambre selectedChambre = tableChambres.getSelectionModel().getSelectedItem();
             if (selectedChambre != null) {
@@ -109,4 +128,12 @@ public class FenAffichageListeChambres extends Stage {
     	    lesChambres = FXCollections.observableArrayList(chambres);
     	    tableChambres.setItems(lesChambres);
     }
+    
+    public void ajouterChambre(Chambre c) {
+		lesChambres.add(c);
+	}
+    
+    public void supprimerChambre(Chambre e) {
+		lesChambres.remove(e);
+	}
 }
